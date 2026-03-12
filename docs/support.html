@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FDUtility — Support</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.7; padding: 3rem 1.5rem; }
+  .container { max-width: 680px; margin: 0 auto; }
+  h1 { font-size: 2rem; font-weight: 700; color: #f0f6fc; margin-bottom: 0.5rem; }
+  .subtitle { color: #58a6ff; font-size: 0.95rem; margin-bottom: 2.5rem; }
+  h2 { font-size: 1.15rem; font-weight: 600; color: #f0f6fc; margin: 2rem 0 0.75rem; border-bottom: 1px solid #21262d; padding-bottom: 0.5rem; }
+  h3 { font-size: 1rem; font-weight: 600; color: #e6edf3; margin: 1.25rem 0 0.5rem; }
+  p { margin-bottom: 1rem; font-size: 0.95rem; }
+  ul { margin: 0.5rem 0 1rem 1.5rem; }
+  li { margin-bottom: 0.4rem; font-size: 0.95rem; }
+  code { background: #161b22; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9rem; color: #79c0ff; }
+  .contact-box { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1.5rem; margin: 1.5rem 0; }
+  a { color: #58a6ff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .badge { display: inline-block; background: #1f6feb33; color: #58a6ff; padding: 0.15rem 0.6rem; border-radius: 12px; font-size: 0.8rem; font-weight: 500; margin-left: 0.5rem; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Support</h1>
+  <p class="subtitle">FDUtility — Frozen-Frame Detection</p>
+
+  <div class="contact-box">
+    <p><strong>Email:</strong> <a href="mailto:fdutility@proton.me">fdutility@proton.me</a></p>
+    <p style="margin-bottom:0"><strong>GitHub:</strong> <a href="https://github.com/Kaz-T-Kaz/FDUtility/issues">Report an Issue</a></p>
+  </div>
+
+  <h2>Getting Started</h2>
+  <ol style="margin: 0.5rem 0 1rem 1.5rem;">
+    <li>Launch FDUtility</li>
+    <li>Click <strong>Add Files…</strong> or <strong>Add Folder…</strong> to load your video files (.mp4, .mov)</li>
+    <li>Adjust <strong>Noise Level</strong> and <strong>Minimum Duration</strong> if needed (defaults work well for most footage)</li>
+    <li>Click <strong>Start Processing</strong></li>
+    <li>When complete, select your export format (Final Cut Pro / DaVinci Resolve) and handling mode, then click <strong>Generate</strong></li>
+  </ol>
+
+  <h2>Frequently Asked Questions</h2>
+
+  <h3>What video formats are supported?</h3>
+  <p>Any format supported by macOS AVFoundation — including H.264, H.265/HEVC, ProRes, and most camera-native formats (.mp4, .mov, .m4v).</p>
+
+  <h3>How does the detection work?</h3>
+  <p>FDUtility uses a two-phase algorithm. Phase 1 scans timestamp gaps in VFR (Variable Frame Rate) content without decoding — this is how it achieves 1,600× realtime speed. Phase 2 uses pixel-level comparison (Mean Absolute Difference via Apple's Accelerate/vDSP) for CFR content.</p>
+
+  <h3>What do the detection parameters mean?</h3>
+  <p><strong>Noise Level</strong> (default: -60 dB): How similar frames must be to count as "frozen". Lower values (more negative) = more sensitive. -60 dB means frames must differ by less than 0.1% in average luma.</p>
+  <p><strong>Minimum Duration</strong> (default: 1.0s): The shortest freeze to report. Freezes shorter than this threshold are ignored.</p>
+
+  <h3>What FCPXML export modes are available?</h3>
+  <ul>
+    <li><strong>Gaps</strong> — Clean footage becomes clips; frozen segments become gaps (empty space)</li>
+    <li><strong>Frozen Clips</strong> — Both frozen and clean segments appear as clips for in-context review</li>
+    <li><strong>Non-Freezes Only</strong> — Frozen segments are removed entirely</li>
+  </ul>
+
+  <h3>Can I import the FCPXML into DaVinci Resolve?</h3>
+  <p>Yes. FDUtility exports FCPXML v1.8 for DaVinci Resolve and FCPXML v1.10 for Final Cut Pro. Select either or both formats before clicking Generate.</p>
+
+  <h2>Known Issues</h2>
+
+  <h3>Final Cut Pro 12.0 crashes on FCPXML import <span class="badge">Apple Bug</span></h3>
+  <p>FCP 12.0 on macOS Tahoe 26.x has a confirmed bug that crashes on any FCPXML import containing <code>&lt;asset-clip&gt;</code> elements — including FCP's own exported XML. This is an Apple regression unrelated to FDUtility. Use FCP 11.x until Apple releases a patch.</p>
+
+  <h2>System Requirements</h2>
+  <ul>
+    <li>macOS 13.0 (Ventura) or later</li>
+    <li>Apple Silicon (M1/M2/M3/M4) or Intel Mac</li>
+    <li>No external dependencies required</li>
+  </ul>
+</div>
+</body>
+</html>
